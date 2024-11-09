@@ -1,0 +1,28 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    public function run()
+    {
+        Role::create([
+            'name' => 'admin',
+        ]);
+
+        Role::create([
+            'name' => 'chief',
+        ]);
+
+        Role::create([
+            'name' => 'leader',
+        ]);
+
+        Role::create([
+            'name' => 'seller',
+        ]);
+    }
+}

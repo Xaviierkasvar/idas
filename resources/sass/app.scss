@@ -1,0 +1,142 @@
+@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-title {
+    margin: 0;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    position: fixed;
+    top: 50px;
+    left: -250px;
+    height: calc(100% - 50px);
+    transition: left 0.3s ease;
+    padding-top: 50px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar li a {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.sidebar li a:hover {
+    background-color: #e9ecef;
+}
+
+.close-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    padding: 8px 12px;
+    z-index: 1001;
+}
+
+.user-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.page-container {
+    transition: margin-left 0.3s ease;
+    margin-top: 10%;
+}
+
+.sidebar.active + .page-container {
+    margin-left: 250px;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+}
+
+.navbar-toggler-icon {
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 200px;
+    }
+    .user-logo {
+        width: 35px;
+        height: 35px;
+    }
+    .sidebar.active + .dashboard-container {
+        margin-left: 200px;
+    }
+}
+
+.sidebar-active {
+    margin-left: 250px;
+}
+
+.logout-button {
+    padding: 15px 20px;
+    color: inherit;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+}
+
+.sidebar li button:hover {
+    background-color: #e9ecef;
+}
+
+.current-date-time {
+    font-size: 14px;
+    color: #fff;
+}
