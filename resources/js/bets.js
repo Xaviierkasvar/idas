@@ -128,14 +128,24 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.success) {
-                    this.printBetDetails(data.data);
+                    //this.printBetDetails(data.data);
+
                     Swal.fire({
                         title: 'Success',
                         text: data.success,
                         icon: 'success',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        timer: 2000,
+                        willClose: () => {
+                            document.getElementById('successful-view').classList.remove('d-none');
+                            
+                            document.getElementById('bet-view').classList.add('d-none');
+                            
+                            this.populateBetDetailsTable(data.data);
+                        }
                     });
-                    this.form.reset();
+
+                    //this.form.reset();
                 } else if (data.errors) {
                     Swal.fire({
                         title: 'Error',
@@ -194,7 +204,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.click();
                 document.body.removeChild(container);
             });
-        }         
+        }
+        
+        populateBetDetailsTable(betData) {
+            const tableBody = document.getElementById('betDetailsTableBody');
+            let totalAmount = 0;
+
+            betData.forEach((bet) => {
+                const row = document.createElement('tr');
+
+                const betNumberCell = document.createElement('td');
+                betNumberCell.textContent = Object.keys(bet.bet_number_and_bet_amount)[0];
+                row.appendChild(betNumberCell);
+
+                const betAmountCell = document.createElement('td');
+                const betAmount = Number(Object.values(bet.bet_number_and_bet_amount)[0]);
+                betAmountCell.textContent = betAmount.toLocaleString();
+                row.appendChild(betAmountCell);
+
+                tableBody.appendChild(row);
+
+                totalAmount += betAmount;
+            });
+
+            document.getElementById('betId').textContent = betData[0].bet_id;
+            document.getElementById('drawNumber').textContent = betData[0].draw_number;
+            document.getElementById('betDateTime').textContent = betData[0].bet_date_time;
+            document.getElementById('totalAmount').textContent = totalAmount.toLocaleString();
+        }
     }
 
     new BetForm();

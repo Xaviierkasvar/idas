@@ -27,7 +27,7 @@
 <!-- Menú Lateral -->
 <div class="sidebar" id="sidebar">
     <button class="close-menu" onclick="toggleMenu()">✖</button>
-    <ul class="margin-navbar">
+    <ul>
         <li>
             <a href="{{ route('home') }}">
                 <span class="menu-item">Home</span>
