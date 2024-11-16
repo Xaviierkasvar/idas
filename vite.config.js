@@ -9,7 +9,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/sass/login.scss', // Agregado
                 'resources/js/login.js',
-                'resources/sass/admin/dashboard.css',
+                'resources/sass/layouts/dashboard.scss',
                 'resources/js/betcontrol.js',
                 'resources/js/bets.js',
                 'resources/js/reports.js',
