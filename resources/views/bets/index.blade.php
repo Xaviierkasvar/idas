@@ -77,7 +77,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" style="height: 50px; margin-top: 3%; padding-top: 0%;">Place Bets</button>
-        </div>        
+        </div>
     </form>
 </div>
 
@@ -121,7 +121,7 @@
 
     <div class="modal-footer">
         <a href="{{ route('bets.index') }}">
-            <button type="button" class="btn btn-secondary">Close</button>
+            <button type="button" class="btn btn-outline-secondary custom-btn">Close</button>
         </a>
     </div>
 </div>
