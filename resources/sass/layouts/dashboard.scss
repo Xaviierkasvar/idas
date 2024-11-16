@@ -48,3 +48,9 @@
         width: 90%;
     }
 }
+
+@media (min-width: 768px) {
+    .wide-card {
+        width: 100%; /* Ocupa el 90% del ancho de la pantalla */
+    }
+}

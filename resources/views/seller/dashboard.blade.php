@@ -56,5 +56,4 @@
         </div>
     </div>
 </div>
-@vite('resources\sass\admin\dashboard.css')
 @endsection
