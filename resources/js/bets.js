@@ -1,4 +1,4 @@
-import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 document.addEventListener('DOMContentLoaded', () => {
     class BetForm {
@@ -163,58 +163,38 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Genera el PDF con los detalles de la apuesta
         printBetDetails(data) {
-            const pdf = new jsPDF();
-            
-            pdf.setFontSize(16);
-            pdf.text("Betting details", 10, 10);
-            
-            pdf.setFontSize(12);
-            pdf.text(`Bet ID: ${data[0].bet_id}`, 160, 10);
-        
-            const headers = ["Draw Number", "Bet Number", "Bet Amount"];
-            let startY = 30;
-            const rowHeight = 10;
-        
-            headers.forEach((header, index) => {
-                pdf.text(header, 10 + (index * 60), startY);
-            });
-        
-            startY += rowHeight;
+            const container = document.createElement('div');
+            container.style.textAlign = 'center';
+            document.body.appendChild(container);
         
             let totalBetAmount = 0;
+            let htmlContent = `<h1>Betting Details</h1>`;
+            htmlContent += `<p>Bet ID: ${data[0].bet_id}</p>`;
+            htmlContent += `<p>Bet Date/Time: ${data[0].bet_date_time}</p>`;
+            htmlContent += `<table style="margin: 0 auto;"><thead><tr><th>Draw Number</th><th>Bet Number</th><th>Bet Amount</th></tr></thead><tbody>`;
         
             data.forEach(bet => {
                 const betEntries = Object.entries(bet.bet_number_and_bet_amount);
-                pdf.text(bet.draw_number, 10, startY);
-        
-                betEntries.forEach(([betNumber, betAmount], index) => {
-                    if (index === 0) {
-                        pdf.text(betNumber, 70, startY);
-                        pdf.text(betAmount, 130, startY);
-                    } else {
-                        startY += rowHeight;
-                        pdf.text(betNumber, 70, startY);
-                        pdf.text(betAmount, 130, startY);
-                    }
-                    totalBetAmount += parseFloat(betAmount);
+                betEntries.forEach(([betNumber, betAmount]) => {
+                    htmlContent += `<tr><td>${bet.draw_number}</td><td>${betNumber}</td><td>${betAmount}</td></tr>`;
+                    totalBetAmount += parseFloat(betAmount); // Suma el monto de la apuesta
                 });
-        
-                startY += rowHeight;
             });
         
-            const formattedDateTime = data[0].bet_date_time.replace("T", " ").substring(0, 19);
+            htmlContent += `</tbody></table>`;
+            htmlContent += `<h3>Total Bet Amount: ${totalBetAmount.toLocaleString("es-CO", { minimumFractionDigits: 0 })}</h3>`; // Muestra el total
+            container.innerHTML = htmlContent;
         
-            pdf.text(`Bet Date/Time: ${formattedDateTime}`, 10, pdf.internal.pageSize.height - 20);
-        
-            const formattedTotalBetAmount = totalBetAmount.toLocaleString("es-CO", { minimumFractionDigits: 0 });
-            pdf.setFontSize(14);
-            pdf.text(`Total Bet Amount: ${formattedTotalBetAmount}`, 10, startY + 10);
-        
-            pdf.autoPrint();
-            window.open(pdf.output('bloburl'), '_blank');
-        }
+            html2canvas(container).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'bet_details.jpg';
+                link.click();
+                document.body.removeChild(container);
+            });
+        }         
     }
 
     new BetForm();

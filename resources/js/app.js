@@ -30,7 +30,6 @@ $(document).ready(function() {
     let timeout;
 
     function resetTimer() {
-        console.log('escucha');
         clearTimeout(timeout);
         timeout = setTimeout(logout, 900000); // 15 minutes in milliseconds
     }
