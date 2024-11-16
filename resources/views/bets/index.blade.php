@@ -39,7 +39,6 @@
         @csrf    
         <div class="mb-3">
             <label for="draw_number" class="form-label">Select Draw Number</label>
-            <label for="draw_number" class="form-label">Select Draw Number</label>
             <select id="draw_number" name="draw_number" class="form-select" required>
                 <option value="">-- Select Draw Number --</option>
                 @foreach ($activeConfigurations as $configuration)
