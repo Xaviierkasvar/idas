@@ -1,6 +1,6 @@
 <!-- resources/views/layouts/navbar.blade.php -->
 
-<nav class="navbar">
+<nav id="navbar" class="navbar">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" id="menuToggle" onclick="toggleMenu()">
             <span class="navbar-toggler-icon"></span>

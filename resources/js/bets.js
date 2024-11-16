@@ -137,11 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         confirmButtonText: 'OK',
                         timer: 2000,
                         willClose: () => {
-                            document.getElementById('successful-view').classList.remove('d-none');
-                            
-                            document.getElementById('bet-view').classList.add('d-none');
-                            
-                            this.populateBetDetailsTable(data.data);
+                            this.showSuccessfulView(data.data);
                         }
                     });
 
@@ -232,6 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('betDateTime').textContent = betData[0].bet_date_time;
             document.getElementById('totalAmount').textContent = totalAmount.toLocaleString();
         }
+
+        showSuccessfulView(betData) {
+            document.getElementById('successful-view').classList.remove('d-none');
+            document.getElementById('bet-view').classList.add('d-none');
+            document.getElementById('navbar').classList.add('d-none');
+            this.populateBetDetailsTable(betData);
+        };
     }
 
     new BetForm();
