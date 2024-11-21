@@ -7,7 +7,7 @@ export default defineConfig({
             input: [
                 'resources/js/app.js',
                 'resources/sass/app.scss',
-                'resources/sass/login.scss', // Agregado
+                'resources/sass/login.scss',
                 'resources/js/login.js',
                 'resources/sass/layouts/dashboard.scss',
                 'resources/js/betcontrol.js',

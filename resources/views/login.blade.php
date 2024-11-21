@@ -25,15 +25,15 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('login.dologin') }}">
+                        <form method="POST" action="{{ route('login.dologin') }}" autocomplete="on">
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="username">Username</label>
-                                <input type="text" name="username" class="form-control" id="username" value="{{ old('username') }}" required autofocus>
+                                <input type="text" name="username" class="form-control" id="username" value="{{ old('username') }}" required autofocus autocomplete="username">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password" required>
+                                <input type="password" name="password" class="form-control" id="password" required autocomplete="current-password">
                             </div>
                             <div class="form-group mb-3">
                                 <div class="form-check">

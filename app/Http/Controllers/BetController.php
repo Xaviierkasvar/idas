@@ -142,7 +142,6 @@ class BetController extends Controller
     private function checkBetAmounts($betAmounts, $maxBetAmount)
     {
         foreach ($betAmounts as $amount) {
-            Log::info("Revisando monto de apuesta: $amount con máximo permitido: $maxBetAmount");
             if ($amount > $maxBetAmount) {
                 response()->json(['error' => "El monto de la apuesta no puede exceder $maxBetAmount."], 400)->throwResponse();
             }
@@ -197,13 +196,14 @@ class BetController extends Controller
                     'bet_date_time' => $currentDate,
                 ]);
 
-                // Limpiar betsData antes de agregar una nueva entrada
                 $betsData = [];
                 $betsData[$betNumber] = $request->bet_amount[$index];
+                $drawNumberValue = GameConfigurations::where('draw_number', $bet->draw_number)
+                    ->select('draw_number', 'draw_name')->first();
 
                 $betsDataSingle[] = [
                     'bet_id' => $bet->bet_id,
-                    'draw_number' => $bet->draw_number,
+                    'draw_number' => $drawNumberValue->draw_number . ' - ' . $drawNumberValue->draw_name,
                     'bet_number_and_bet_amount' => $betsData,
                     'bet_date_time' => $currentDate->toDateTimeString(),
                 ];

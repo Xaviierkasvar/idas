@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.addRowButton = document.getElementById('addRow');
             this.form = document.getElementById('betForm');
             this.drawNumberSelect = document.getElementById('draw_number');
+            this.placeBetsButton = document.getElementById('placeBetsButton');
 
             this.addEventListeners();
         }
@@ -38,9 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Escuchar el submit del formulario
             this.form.addEventListener('submit', (event) => this.handleSubmit(event));
+        }
 
-            // Escuchar el click para generar el PDF de detalles de la apuesta
-            document.getElementById('printBetDetails').addEventListener('click', () => this.printBetDetails());
+        handlePlaceBetsClick(process) {
+            // Deshabilitar el botón
+            this.placeBetsButton.disabled = (process == 'start') ? true : false;
+
+            // Cambiar el texto del botón
+            this.placeBetsButton.textContent = (process == 'start') ? "Processing..." : "Place Bets";
         }
 
         // Maneja el cambio del número de sorteo
@@ -109,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Maneja el submit del formulario
         handleSubmit(event) {
             event.preventDefault();
+            this.handlePlaceBetsClick('start');
         
             const formData = new FormData(this.form);
         
@@ -128,8 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.success) {
-                    //this.printBetDetails(data.data);
-
                     Swal.fire({
                         title: 'Success',
                         text: data.success,
@@ -141,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
 
-                    //this.form.reset();
                 } else if (data.errors) {
+                    this.handlePlaceBetsClick('end');
                     Swal.fire({
                         title: 'Error',
                         text: Object.values(data.errors).flat().join(', '),
@@ -150,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         confirmButtonText: 'OK'
                     });
                 } else if (data.error) {
+                    this.handlePlaceBetsClick('end');
                     Swal.fire({
                         title: 'Error',
                         text: data.error,
@@ -159,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                this.handlePlaceBetsClick('end');
                 Swal.fire({
                     title: 'Error',
                     text: error.message || 'Hubo un problema inesperado. Inténtelo de nuevo.',
@@ -169,28 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        printBetDetails(data) {
-            const container = document.createElement('div');
-            container.style.textAlign = 'center';
-            document.body.appendChild(container);
-        
-            let totalBetAmount = 0;
-            let htmlContent = `<h1>Betting Details</h1>`;
-            htmlContent += `<p>Bet ID: ${data[0].bet_id}</p>`;
-            htmlContent += `<p>Bet Date/Time: ${data[0].bet_date_time}</p>`;
-            htmlContent += `<table style="margin: 0 auto;"><thead><tr><th>Draw Number</th><th>Bet Number</th><th>Bet Amount</th></tr></thead><tbody>`;
-        
-            data.forEach(bet => {
-                const betEntries = Object.entries(bet.bet_number_and_bet_amount);
-                betEntries.forEach(([betNumber, betAmount]) => {
-                    htmlContent += `<tr><td>${bet.draw_number}</td><td>${betNumber}</td><td>${betAmount}</td></tr>`;
-                    totalBetAmount += parseFloat(betAmount); // Suma el monto de la apuesta
-                });
-            });
-        
-            htmlContent += `</tbody></table>`;
-            htmlContent += `<h3>Total Bet Amount: ${totalBetAmount.toLocaleString("es-CO", { minimumFractionDigits: 0 })}</h3>`; // Muestra el total
-            container.innerHTML = htmlContent;
+        printBetDetails() {
+            const container = document.getElementById('successful-view');
         
             html2canvas(container).then(canvas => {
                 const imgData = canvas.toDataURL('image/jpeg', 1.0);
@@ -198,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.href = imgData;
                 link.download = 'bet_details.jpg';
                 link.click();
-                document.body.removeChild(container);
             });
         }
         
@@ -234,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('bet-view').classList.add('d-none');
             document.getElementById('navbar').classList.add('d-none');
             this.populateBetDetailsTable(betData);
+            this.printBetDetails();
         };
     }
 

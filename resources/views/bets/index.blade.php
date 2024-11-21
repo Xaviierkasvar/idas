@@ -76,7 +76,14 @@
                     <input type="text" id="total_bet_amount" class="form-control" value="0" readonly>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="height: 50px; margin-top: 3%; padding-top: 0%;">Place Bets</button>
+            <button 
+                type="submit" 
+                class="btn btn-primary" 
+                id="placeBetsButton" 
+                style="height: 50px; margin-top: 3%; padding-top: 0%;"
+            >
+                Place Bets
+            </button>
         </div>
     </form>
 </div>
