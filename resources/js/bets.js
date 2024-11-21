@@ -179,10 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('successful-view');
         
             html2canvas(container).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                const imgData = canvas.toDataURL('image/png', 1.0);
                 const link = document.createElement('a');
                 link.href = imgData;
-                link.download = 'bet_details.jpg';
+                link.download = 'bet_details.png';
                 link.click();
             });
         }
